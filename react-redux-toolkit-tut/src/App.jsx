@@ -5,7 +5,7 @@ function App() {
   return (
     <>
       <Header />
-      <h1>React Redux Toolkit</h1>
+      <h1>React Redux Toolkit</h1> 
       <Product />
     </>
   );
