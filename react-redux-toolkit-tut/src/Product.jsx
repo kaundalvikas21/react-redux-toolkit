@@ -1,8 +1,17 @@
-import {useDispatch } from "react-redux";
+import {useDispatch, useSelector } from "react-redux";
 import { addItem } from "./redux-toolkit/slice";
-const Product = () => {
+import { useEffect } from "react";
+import {fetchProducts} from "./redux-toolkit/productSlice";
 
-    const dispatch=useDispatch()
+const Product = () => {
+    const dispatch=useDispatch();
+
+    useEffect(()=>{
+      dispatch(fetchProducts())
+    },[])
+    const selector=useSelector((state)=>state.products.items);
+    console.log(selector);
+    
     return (
     <div className="product-card">
       <div className="product-image">
