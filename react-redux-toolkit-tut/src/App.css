@@ -189,6 +189,7 @@ nav ul li a {
   box-shadow: 0 4px 10px rgb(0, 0, 0, 0.1);
   background-color: #cccccc1a;
   border-radius: 15px;
+  margin-bottom: 100px;
 }
 .cart-header {
   display: flex;
