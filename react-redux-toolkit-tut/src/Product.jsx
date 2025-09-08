@@ -1,5 +1,5 @@
 import {useDispatch, useSelector } from "react-redux";
-import { addItem } from "./redux-toolkit/slice";
+import { addItem, removeItem } from "./redux-toolkit/slice";
 import { useEffect } from "react";
 import {fetchProducts} from "./redux-toolkit/productSlice";
 
@@ -9,28 +9,27 @@ const Product = () => {
     useEffect(()=>{
       dispatch(fetchProducts())
     },[])
-    const selector=useSelector((state)=>state.products.items);
-    console.log(selector);
-    
-    return (
-    <div className="product-card">
-      <div className="product-image">
-        <img
-          src="https://img.freepik.com/premium-photo/3d-rendering-headphone-mockup_786615-575.jpg?w=1480"
-          alt=""
-        />
-      </div>
+    const productSelector=useSelector((state)=>state.products.items);
+    console.log(productSelector);
 
-      <div className="product-info">
-        <h1>Wireless Headphones</h1>
-         <span className="product-price">$129.99</span>
-        <p className="description">
-          Experience high-quality sound with these wireless headphones.
-          Featuring noise cancellation, long-lasting battery life, and a sleek
-          modern design for everyday use..
-        </p>
-        <button onClick={()=>dispatch(addItem(1))} className="btn">Add to Cart</button>
-      </div>
+    return (
+    <div className="grid">
+      {
+        productSelector.length && productSelector.map((item)=>(
+          <div key={item.id} className="card">
+           <img src={item.thumbnail} alt="" />
+           <div className="content">
+            <div className="title">{item.title}</div>
+            <div className="description">{item.description}</div>
+            <div className="category">{item.category}</div>
+            <div className="brand">{item.brand}</div>
+            <div className="price">{item.price}</div>
+            <div className="rating">{item.rating}</div>
+            <button className="btn">Add to cart</button>
+           </div>
+          </div>
+        ))
+      }
     </div>
   );
 };
