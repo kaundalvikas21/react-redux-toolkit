@@ -1,5 +1,5 @@
 import {useDispatch, useSelector } from "react-redux";
-import { addItem, removeItem } from "./redux-toolkit/slice";
+import { addItem } from "./redux-toolkit/slice";
 import { useEffect } from "react";
 import {fetchProducts} from "./redux-toolkit/productSlice";
 
@@ -11,6 +11,9 @@ const Product = () => {
     },[])
     const productSelector=useSelector((state)=>state.products.items);
     console.log(productSelector);
+
+    const cartSelector = useSelector((state)=>state.cart.items);
+    console.log(cartSelector.length);
 
     return (
     <div className="grid">
@@ -25,7 +28,13 @@ const Product = () => {
             <div className="brand">{item.brand}</div>
             <div className="price">{item.price}</div>
             <div className="rating">{item.rating}</div>
-            <button className="btn">Add to cart</button>
+            {
+              cartSelector.find(cartItem=> cartItem.id === item.id) ?
+                <button className="btn btn-disable">Added in cart</button>
+                 :
+                <button onClick={()=>dispatch(addItem(item))} className="btn">Add to cart</button>
+            }
+         
            </div>
           </div>
         ))
