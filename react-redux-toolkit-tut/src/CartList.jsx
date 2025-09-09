@@ -15,11 +15,12 @@ export default function CartList(){
         setCartItems(cartSelector)
     },[cartSelector])
     const dispatch = useDispatch()
+
     const manageQuantity = (id,q)=>{
-        let quantity = parseInt(q) > 1 ? parseInt(q) : 1
+        let quantity = parseInt(q)>1 ? parseInt(q):1
         const cartTempItems = cartSelector.map((item)=>{
             return item.id == id ?
-            { ...item, quantity } : item
+            {...item, quantity} : item
         })
         setCartItems(cartTempItems)
     }
@@ -35,10 +36,10 @@ export default function CartList(){
         <div className="cart-container">
             <div className="cart-header">
                 <h2>Cart Items</h2>
-                <span>{cartSelector.length} items</span>
+                <span>{cartItems.length} items</span>
             </div>
             {
-                cartSelector.length>0 ? cartSelector.map((item)=>(
+                cartItems.length>0 ? cartItems.map((item)=>(
                     <div key={item.id} className="cart-item">
                         <div className="cart-info">
                             <img src={item.thumbnail} alt="" />
@@ -48,16 +49,22 @@ export default function CartList(){
                             </div>
                         </div>
                         <div className="item-actions">
-                            <input defaultValue={1} onChange={(e) => manageQuantity(item.id, e.target.value)}  min={1}  type="number" />
-                            <span className="price">${item.price}</span>
+                           <div style={{display:"flex", alignItems:"center"}}>
+                             <input style={{margin:"15px"}} onChange={(e) => manageQuantity(item.id,e.target.value)} value={item.quantity?item.quantity:1}  type="number" />
+                           <div>
+                             <span className="price">
+                                ${(item.quantity?item.price*item.quantity:item.price).toFixed(2)}
+                                </span>
                             <button onClick={()=>dispatch(removeItem(item))} className="btn">Remove</button>
+                           </div>
+                           </div>
                         </div>
                     </div>
                 ))
                 :null
             }
             <div className="total-price">
-                Total: ${cartSelector.reduce((sum,item)=>sum+item.price,0)}
+                Total: ${(cartItems.reduce((sum,item)=>item.quantity?sum+item.price*item.quantity:sum+item.price,0).toFixed(2))}
             </div>
             <button onClick={handlePlaceOrder} className="btn">Place Order</button>
         </div>
